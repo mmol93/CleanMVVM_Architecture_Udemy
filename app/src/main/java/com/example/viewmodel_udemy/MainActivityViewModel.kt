@@ -2,15 +2,19 @@ package com.example.viewmodel_udemy
 
 import androidx.lifecycle.ViewModel
 
-class MainActivityViewModel : ViewModel() {
-    private var count = 0
+class MainActivityViewModel(startingTotal : Int) : ViewModel() {
+    private var total = 0
 
-    fun getCurrentCount() : Int{
-
-        return count
+    init {
+        total = startingTotal
     }
 
-    fun getUpdatedCount() : Int{
-        return ++count
+    fun getTotal() : Int{
+
+        return total
+    }
+
+    fun add(input : Int){
+        total += input
     }
 }
