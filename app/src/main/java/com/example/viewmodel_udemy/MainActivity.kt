@@ -11,9 +11,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModelFactory: ViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binder = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binder.root)
+
+        // ViewModelFactory에 초기값 설정
         viewModelFactory = ViewModelFactory(125)
         // ViewModel 대상 설정
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)

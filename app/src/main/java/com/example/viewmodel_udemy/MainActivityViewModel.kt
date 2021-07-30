@@ -10,7 +10,6 @@ class MainActivityViewModel(startingTotal : Int) : ViewModel() {
     }
 
     fun getTotal() : Int{
-
         return total
     }
 
