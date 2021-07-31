@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MainActivityViewModel() : ViewModel() {
-    val userName = MutableLiveData<String>()
+    val number = MutableLiveData<Int>()
 
     init {
-        userName.value = "Frank"
+        number.value = 0
     }
 }
