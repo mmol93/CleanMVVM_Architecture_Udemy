@@ -2,6 +2,7 @@ package com.example.viewmodel_udemy
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.viewmodel_udemy.databinding.ActivityMainBinding
@@ -9,23 +10,15 @@ import com.example.viewmodel_udemy.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binder : ActivityMainBinding
     private lateinit var viewModel : MainActivityViewModel
-    private lateinit var viewModelFactory: ViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // View들을 DataBinding으로 묶어준다(평소 쓰던 일반적인 ViewBinding과 다름)
+        binder = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        // ViewModel을 추가한다
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        // 레이아웃에 있는 data가 어느 viewModel을 대상으로할지 지정해준다
+        // 이렇게 하면 LiveData와 DataBinding을 연결할 수 있게 된다
+        binder.mainViewModel = viewModel
 
-        binder = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binder.root)
-        viewModelFactory = ViewModelFactory(125)
-        // ViewModel 대상 설정
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
-        // observe를 이용하여 관찰할 대상(변수) 설정
-        viewModel.total.observe(this, Observer {
-            binder.textView.text = it.toString()
-        })
-
-
-        binder.addButton.setOnClickListener {
-            viewModel.add(binder.editText.text.toString().toInt())
-        }
     }
 }
