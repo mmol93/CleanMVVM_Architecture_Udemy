@@ -7,16 +7,58 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.viewmodel_udemy.HomeFragment"
+        android:name="com.example.viewmodel_udemy.Fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_secondFragment"
-            app:destination="@id/secondFragment" />
+            app:destination="@id/secondFragment"
+            app:enterAnim="@anim/push_up_out"
+            app:exitAnim="@anim/push_down_in"
+            app:popEnterAnim="@anim/push_up_out"
+            app:popExitAnim="@anim/push_down_in" />
+        <action
+            android:id="@+id/action_homeFragment_to_termsFragment"
+            app:destination="@id/termsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/secondFragment"
-        android:name="com.example.viewmodel_udemy.SecondFragment"
+        android:name="com.example.viewmodel_udemy.Fragment.SecondFragment"
         android:label="fragment_second"
-        tools:layout="@layout/fragment_second" />
+        tools:layout="@layout/fragment_second" >
+        <action
+            android:id="@+id/action_secondFragment_to_emailFragment"
+            app:destination="@id/emailFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.example.viewmodel_udemy.Fragment.TermsFragment"
+        android:label="fragment_terms"
+        tools:layout="@layout/fragment_terms" />
+    <fragment
+        android:id="@+id/emailFragment"
+        android:name="com.example.viewmodel_udemy.Fragment.EmailFragment"
+        android:label="fragment_email"
+        tools:layout="@layout/fragment_email" >
+        <action
+            android:id="@+id/action_emailFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.example.viewmodel_udemy.Fragment.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_termsFragment"
+            app:destination="@id/termsFragment" />
+    </fragment>
 </navigation>
