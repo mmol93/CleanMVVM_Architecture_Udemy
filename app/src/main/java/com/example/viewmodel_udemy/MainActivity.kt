@@ -8,6 +8,7 @@ import com.example.viewmodel_udemy.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     private var count = 0
@@ -30,16 +31,21 @@ class MainActivity : AppCompatActivity() {
             // GlobalScope: 코루틴중에서 최상위 등급 = 앱이 종료될 때까지 실행됨
             // Dispatchers: 코로틴을 어느 코루틴에서 실행할지 정의
             // launch: 코루틴 빌더, 새로운 코루틴을 생성 & 실행
-            CoroutineScope(Dispatchers.IO).launch {
-                downloadUserData()
+            CoroutineScope(Dispatchers.Main).launch {
+                binder.userTextView.text = UserDataManager().getTotalUserCount().toString()
             }
         }
     }
 
     // 메인스레드를 로그로 계속 출력하게 하는 함수
-    private fun downloadUserData() {
+    // suspend를 이용하여 코루틴에서 사용될 함수라는 것을 알린다
+    private suspend fun downloadUserData() {
         for (i in 1..200000) {
-            Log.i("MyTag", "Downloading user $i in ${Thread.currentThread().name}")
+            // UI와 관계가 있는 코루틴의 경우 Main thread에서 실행하게 한다
+            // withContext: 코루틴 안에서 해당 부분만 다른 코루틴으로 실행할 수 있게 해준다
+            withContext(Dispatchers.Main){
+
+            }
         }
     }
 }
