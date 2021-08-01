@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity() {
             // Dispatchers: 코로틴을 어느 코루틴에서 실행할지 정의
             // launch: 코루틴 빌더, 새로운 코루틴을 생성 & 실행
             CoroutineScope(Dispatchers.Main).launch {
-                binder.userTextView.text = UserDataManager().getTotalUserCount().toString()
+//                binder.userTextView.text = UserDataManager().getTotalUserCount().toString()
+                binder.userTextView.text = UserDataManager2().getTotalUserCount().toString()
             }
         }
     }

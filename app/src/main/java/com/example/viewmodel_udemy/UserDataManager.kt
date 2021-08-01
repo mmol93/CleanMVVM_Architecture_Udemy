@@ -6,6 +6,7 @@ import kotlinx.coroutines.*
 class UserDataManager {
     suspend fun getTotalUserCount() : Int{
         var count = 0
+        // (대문자)CoroutineScope: 인터페이스
         CoroutineScope(Dispatchers.IO).launch {
             delay(1000)
             count = 50
