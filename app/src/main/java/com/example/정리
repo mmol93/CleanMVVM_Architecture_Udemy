@@ -1,0 +1,18 @@
+<Room을 사용하는 앱에서 Room과 ViewModel을 같이 사용하는 방법>
+
+1. 먼저 Room 자체의 데이터베이스를 정의한다
+- DAO, Database, TableName이 있는 클래스(여기서는 Subscriber.kt)
+- 단, DAO에서 @Query, @Insert, @Delete에 접근할 때는 suspend fun을 사용한다
+- 그 이유는 Room에서 모든 데이터 처리는 background에서 처리되기 때문이다.
+
+2. ViewModel을 정의한다
+- 먼저 일반적으로 하는 ViewModel을 LiveData로 엮어준다
+- 여기서 Room에 대한 처리도 같이 한다
+- 예: @Insert
+- Repository 또는 DAO에서 하는 일을 여기서 실행하게 하는데 이때 viewModelScope로 실행하게 해야한다
+- (@Insert의 경우 suspend fuc로 정의했기 때문)
+
+3. ViewModelFactory를 정의한다
+- Factory의 역할은 단순히 ViewModel을 초기화 해주는 역할이다
+
+4.
