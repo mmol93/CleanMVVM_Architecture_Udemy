@@ -52,5 +52,6 @@ class MainActivity : AppCompatActivity() {
     // 만드는 방법은 람다식을 이용한다
     private fun listItemClicked(subscriber: Subscriber){
         Toast.makeText(this, "selected name is ${subscriber.name}", Toast.LENGTH_SHORT).show()
+        subscribeViewModel.initUpdateAndDelete(subscriber)
     }
 }

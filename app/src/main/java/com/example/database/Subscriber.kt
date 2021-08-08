@@ -10,9 +10,9 @@ data class Subscriber(
     // 컬럼명 & 변수형태 정의
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "subscriber_name")
-    val id : Int,
+    var id : Int,
     @ColumnInfo(name = "subscriber_id")
-    val name : String,
+    var name : String,
     @ColumnInfo(name = "subscriber_email")
-    val email : String
+    var email : String
 )
