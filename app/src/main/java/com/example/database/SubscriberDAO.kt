@@ -1,5 +1,6 @@
 package com.example.database
 
+import android.util.Log
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -16,15 +17,15 @@ interface SubscriberDAO {
 
     // DB에 있는 모든 데이터를 갱신한다
     @Update
-    suspend fun updateSubscriber(subscriber: Subscriber)
+    suspend fun updateSubscriber(subscriber: Subscriber) : Int
 
     // 선택한 구독자를 삭제한다
     @Delete
-    suspend fun deleteSubscriber(subscriber: Subscriber)
+    suspend fun deleteSubscriber(subscriber: Subscriber) : Int
 
     // 모든 구독자 데이터를 삭제한다
     @Query("DELETE FROM subscriber_data_table")
-    suspend fun deleteAll()
+    suspend fun deleteAll() : Int
 
     // 아래 함수는 코루틴을 백그라운드에서 사용하고 있을 때 제거할 필요가 없다
     // = 즉, Room이 존재하는한 계속 사용하고 있어야한다

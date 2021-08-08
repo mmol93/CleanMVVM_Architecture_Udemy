@@ -60,47 +60,64 @@ class SubscribeViewModel(private val repository: SubscribeRepository) : ViewMode
 
     fun insert(subscriber: Subscriber){
         viewModelScope.launch {
-            repository.insert(subscriber)
-            statusMessage.value = Event("Subscriber Insert Successfully")
+            val newRowId : Long = repository.insert(subscriber)
+            if (newRowId > -1){
+                statusMessage.value = Event("Subscriber Insert Successfully : $newRowId")
+            }else{
+                statusMessage.value = Event("Subscriber Insert Failed")
+            }
         }
     }
 
     fun update(subscriber: Subscriber){
         viewModelScope.launch {
-            repository.update(subscriber)
-            // subscriber에서 해당 데이터 베이스가 선택되게 한다
-            // 어떤 데이터 베이스의 인덱스에 대한 값이 들어갈지는 adapter에 넣어서
-            // listItemClicked와 같이 발동되게 한다
-            inputName.value = null
-            inputEmail.value = null
-            isUpdateOrDelete = false
-            subscriberToUpdateOrDelete = subscriber
-            saveUpdateButtonText.value = "Save"
-            clearDeleteButtonText.value = "ClearAll"
-            statusMessage.value = Event("Subscriber Update Successfully")
+            val noOfRows = repository.update(subscriber)
+            if (noOfRows > 0){
+                // subscriber에서 해당 데이터 베이스가 선택되게 한다
+                // 어떤 데이터 베이스의 인덱스에 대한 값이 들어갈지는 adapter에 넣어서
+                // listItemClicked와 같이 발동되게 한다
+                inputName.value = null
+                inputEmail.value = null
+                isUpdateOrDelete = false
+                subscriberToUpdateOrDelete = subscriber
+                saveUpdateButtonText.value = "Save"
+                clearDeleteButtonText.value = "ClearAll"
+                statusMessage.value = Event("$noOfRows Row Subscriber Update Successfully")
+            }else{
+                statusMessage.value = Event("Update Error")
+            }
         }
     }
 
     fun delete(subscriber: Subscriber){
         viewModelScope.launch {
-            repository.delete(subscriber)
-            // subscriber에서 해당 데이터 베이스가 선택되게 한다
-            // 어떤 데이터 베이스의 인덱스에 대한 값이 들어갈지는 adapter에 넣어서
-            // listItemClicked와 같이 발동되게 한다
-            inputName.value = null
-            inputEmail.value = null
-            isUpdateOrDelete = false
-            subscriberToUpdateOrDelete = subscriber
-            saveUpdateButtonText.value = "Save"
-            clearDeleteButtonText.value = "ClearAll"
-            statusMessage.value = Event("Subscriber Delete Successfully")
+            val noOfRowsDeleted = repository.delete(subscriber)
+            if (noOfRowsDeleted > 0){
+                // subscriber에서 해당 데이터 베이스가 선택되게 한다
+                // 어떤 데이터 베이스의 인덱스에 대한 값이 들어갈지는 adapter에 넣어서
+                // listItemClicked와 같이 발동되게 한다
+                inputName.value = null
+                inputEmail.value = null
+                isUpdateOrDelete = false
+                subscriberToUpdateOrDelete = subscriber
+                saveUpdateButtonText.value = "Save"
+                clearDeleteButtonText.value = "ClearAll"
+                statusMessage.value = Event("Subscriber Delete Successfully")
+            }else{
+                statusMessage.value = Event("Delete Error")
+            }
+
         }
     }
 
     fun deleteAll(){
         viewModelScope.launch {
-            repository.deleteAll()
-            statusMessage.value = Event("All Subscriber Clear Successfully")
+            val noOfRowsDeleted = repository.deleteAll()
+            if (noOfRowsDeleted > 0){
+                statusMessage.value = Event("$noOfRowsDeleted Subscribers are Cleared Successfully")
+            }else{
+                statusMessage.value = Event("All Clear Error")
+            }
         }
     }
 

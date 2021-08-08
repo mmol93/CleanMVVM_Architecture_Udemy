@@ -9,19 +9,22 @@ class SubscribeRepository(private val dao : SubscriberDAO) {
 
     // Room 라이브러리는 자동으로 데이터를 liveData로 처리하기 때문에
     // suspend fun으로 기능을 호출한다
-    suspend fun insert(subscriber: Subscriber){
-        dao.insertSubscriber(subscriber)
+    // Long을 반환 값으로 할 경우 넣은 데이터의 Id를 반납한다
+    // 단, Long을 반환하는 조건은 하나의 데이터만 insert 했을 경우다
+    suspend fun insert(subscriber: Subscriber) : Long{
+        return dao.insertSubscriber(subscriber)
     }
 
-    suspend fun update(subscriber: Subscriber){
-        dao.updateSubscriber(subscriber)
+    // insert 이외에 다른 쿼리는 Int를 반환한다
+    suspend fun update(subscriber: Subscriber) : Int{
+        return dao.updateSubscriber(subscriber)
     }
 
-    suspend fun delete(subscriber: Subscriber){
-        dao.deleteSubscriber(subscriber)
+    suspend fun delete(subscriber: Subscriber) : Int{
+        return dao.deleteSubscriber(subscriber)
     }
 
-    suspend fun deleteAll(){
-        dao.deleteAll()
+    suspend fun deleteAll() : Int{
+        return dao.deleteAll()
     }
 }

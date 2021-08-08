@@ -9,6 +9,7 @@ package com.example.viewmodel_udemy
 // 필요 없는 부분에서 lifecycle 변화로 인해(화면 회전 or 스낵바 등) 그 때마다 observe를 하게 된다면
 // 의미 없이 view의 모든 데이터를 다시 읽어오거나 하는 행동을 하게 된다
 // Event Wrapper: 명시적으로 선언하여 어느 상황에서 observe를 할지 지정할 수 있다
+// 즉, LiveData를 이용하여 Toast, SnackBar 같은 것을 쓸 때는 Event를 사용해야한다
 // 참조: https://woovictory.github.io/2020/07/08/Android-SingleLiveEventToEventWrapper/
 open class Event<out T>(private val content: T) {
 
