@@ -18,6 +18,7 @@ import com.example.viewmodel_udemy.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binder : ActivityMainBinding
     private lateinit var subscribeViewModel: SubscribeViewModel
+    private lateinit var adapter : MainRecyclerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binder = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity() {
     }
     private fun initRecyclerView(){
         binder.subscribeRecyclerView.layoutManager = LinearLayoutManager(this)
+        // adapter에 람다식을 넘겨준다
+        // adapter를 초기화한다
+        adapter = MainRecyclerAdapter { selectedItem: Subscriber -> listItemClicked(selectedItem) }
+        binder.subscribeRecyclerView.adapter = adapter
         displaySubscribersList()
     }
 
@@ -49,10 +54,11 @@ class MainActivity : AppCompatActivity() {
         // getSaveSubscribers를 observe한다
         subscribeViewModel.getSaveSubscribers().observe(this, Observer {
             Log.d("test", it.toString())
-            // adapter에 람다식을 넘겨준다
-            binder.subscribeRecyclerView.adapter = MainRecyclerAdapter(it) { selectedItem: Subscriber ->
-                listItemClicked(selectedItem)
-            }
+            // adapter에 넣는 데이터 부분을 갱신한다
+            adapter.setList(it)
+            // 데이터베이스에 변화가 생긴 경우 이 부분(observe)만 발동하게된다
+            // adapter 내용 갱신 명령
+            adapter.notifyDataSetChanged()
         })
     }
 

@@ -8,7 +8,10 @@ import com.example.database.Subscriber
 import com.example.viewmodel_udemy.R
 import com.example.viewmodel_udemy.databinding.ListItemBinding
 
-class MainRecyclerAdapter(private val subscribeList: List<Subscriber>, private val clickListener:(Subscriber)->Unit) : RecyclerView.Adapter<ViewHolder>(){
+class MainRecyclerAdapter(private val clickListener:(Subscriber)->Unit) : RecyclerView.Adapter<ViewHolder>(){
+    //
+    private val subscribeList = ArrayList<Subscriber>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         // 데이터 바인딩을 하여 리턴한다
@@ -23,6 +26,11 @@ class MainRecyclerAdapter(private val subscribeList: List<Subscriber>, private v
 
     override fun getItemCount(): Int {
         return subscribeList.size
+    }
+
+    fun setList(subscribers : List<Subscriber>){
+        subscribeList.clear()
+        subscribeList.addAll(subscribers)
     }
 }
 
