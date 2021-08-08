@@ -1,9 +1,6 @@
 package com.example.viewmodel_udemy
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.database.SubscribeRepository
 import com.example.database.Subscriber
 import kotlinx.coroutines.flow.collect
@@ -22,6 +19,12 @@ class SubscribeViewModel(private val repository: SubscribeRepository) : ViewMode
     // 물론 LiveData가 뷰에 제대로 반영되기 위해 View에도 LiveData 설정을 해준다
     val saveUpdateButtonText = MutableLiveData<String>()
     val clearDeleteButtonText = MutableLiveData<String>()
+
+    // String을 wrapper 클래스로 사용한다
+    private val statusMessage = MutableLiveData<Event<String>>()
+    // statusMessage를 받을 수 있는 getter 만들기
+    val message : LiveData<Event<String>>
+        get() = statusMessage
 
     init {
         saveUpdateButtonText.value = "Save"
@@ -58,6 +61,7 @@ class SubscribeViewModel(private val repository: SubscribeRepository) : ViewMode
     fun insert(subscriber: Subscriber){
         viewModelScope.launch {
             repository.insert(subscriber)
+            statusMessage.value = Event("Subscriber Insert Successfully")
         }
     }
 
@@ -73,6 +77,7 @@ class SubscribeViewModel(private val repository: SubscribeRepository) : ViewMode
             subscriberToUpdateOrDelete = subscriber
             saveUpdateButtonText.value = "Save"
             clearDeleteButtonText.value = "ClearAll"
+            statusMessage.value = Event("Subscriber Update Successfully")
         }
     }
 
@@ -88,12 +93,14 @@ class SubscribeViewModel(private val repository: SubscribeRepository) : ViewMode
             subscriberToUpdateOrDelete = subscriber
             saveUpdateButtonText.value = "Save"
             clearDeleteButtonText.value = "ClearAll"
+            statusMessage.value = Event("Subscriber Delete Successfully")
         }
     }
 
     fun deleteAll(){
         viewModelScope.launch {
             repository.deleteAll()
+            statusMessage.value = Event("All Subscriber Clear Successfully")
         }
     }
 

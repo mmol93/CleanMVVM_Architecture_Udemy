@@ -33,11 +33,18 @@ class MainActivity : AppCompatActivity() {
         binder.lifecycleOwner = this
 
         initRecyclerView()
+
+        subscribeViewModel.message.observe(this, Observer {
+            it.getContentIfNotHandled()?.let{
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
     private fun initRecyclerView(){
         binder.subscribeRecyclerView.layoutManager = LinearLayoutManager(this)
         displaySubscribersList()
     }
+
     private fun displaySubscribersList(){
         // getSaveSubscribers를 observe한다
         subscribeViewModel.getSaveSubscribers().observe(this, Observer {
@@ -48,6 +55,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
     // 이 함수는 Adapter로 넘겨서 각 item이 해당 리스너와 연결되게 만든다
     // 만드는 방법은 람다식을 이용한다
     private fun listItemClicked(subscriber: Subscriber){
