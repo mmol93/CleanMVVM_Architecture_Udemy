@@ -1,5 +1,6 @@
 package com.example.viewmodel_udemy
 
+import android.util.Patterns
 import androidx.lifecycle.*
 import com.example.database.SubscribeRepository
 import com.example.database.Subscriber
@@ -32,20 +33,31 @@ class SubscribeViewModel(private val repository: SubscribeRepository) : ViewMode
     }
 
     fun saveUpdate(){
-        if (isUpdateOrDelete){
-            // 새롭게 subscribe 객체를 가져온다
-            subscriberToUpdateOrDelete.name = inputName.value!!
-            subscriberToUpdateOrDelete.email = inputEmail.value!!
-            update(subscriberToUpdateOrDelete)
+        // 필요한 데이터가 입력 되었는지, 제대로된 데이터가 입력되었는지 확인
+        if (inputName.value == null){
+            statusMessage.value = Event("Please enter subscriber's name")
+        }else if (inputEmail.value == null){
+            statusMessage.value = Event("Please enter subscriber's email")
+        }
+        // 입력한 email이 email 양식인지 확인한다
+        else if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail.value!!).matches()){
+            statusMessage.value = Event("Please enter correct email address")
         }else{
-            val name = inputName.value!!
-            val email = inputEmail.value!!
+            if (isUpdateOrDelete){
+                // 새롭게 subscribe 객체를 가져온다
+                subscriberToUpdateOrDelete.name = inputName.value!!
+                subscriberToUpdateOrDelete.email = inputEmail.value!!
+                update(subscriberToUpdateOrDelete)
+            }else{
+                val name = inputName.value!!
+                val email = inputEmail.value!!
 
-            // Room은 id가 0인 것을 무시하고 자동으로 하나씩 올려줄것이다
-            // (autoinrement 활성화했을 시)
-            insert(Subscriber(0, name, email))
-            inputName.value = null
-            inputEmail.value = null
+                // Room은 id가 0인 것을 무시하고 자동으로 하나씩 올려줄것이다
+                // (autoinrement 활성화했을 시)
+                insert(Subscriber(0, name, email))
+                inputName.value = null
+                inputEmail.value = null
+            }
         }
     }
 
