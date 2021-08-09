@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             .create(AlbumService::class.java)
 
         val responseLiveData : LiveData<Response<Albums>> = liveData {
-            val response = retService.getAlbums()
+            val response = retService.getSortedAlbums(3)
             // getAlbums 객체 값을 liveData로 지정한다
             emit(response)
         }
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             if (albumsList != null){
                 while (albumsList.hasNext()){
                     val albumsItem = albumsList.next()
-                    val result = " " + "Album id: ${albumsItem.title}\n"
+                    val result = " " + "Album userID: ${albumsItem.userId}\n" +"Album title: ${albumsItem.title}\n\n"
                     binder.textView.append(result)
                 }
             }
