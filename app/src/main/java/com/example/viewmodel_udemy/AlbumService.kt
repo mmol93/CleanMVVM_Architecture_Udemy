@@ -1,9 +1,7 @@
 package com.example.viewmodel_udemy
 
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface AlbumService {
     // Retrofit과 코루틴을 이용하여 값을 얻기 위해 suspend 사용
@@ -26,4 +24,8 @@ interface AlbumService {
     // : @Path의 경우 해당 Source(여기선 id)만 가져오기 때문에 1개의 AlbumItem 형태를 띄는 행렬 1개만 가져온다
     // -> @Query와 @Path의 경우 return 하는 값의 type 자체가 다르다
     suspend fun getAlbum(@Path("id") albumId:Int) : Response<AlbumsItem>
+
+    // @Body: Body로써 POST Request를 하는 것을 의미
+    @POST("/albums")
+    suspend fun uploadAlbum(@Body album:AlbumsItem):Response<AlbumsItem>
 }

@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
             .create(AlbumService::class.java)
 //        getRequestWithPathParameters()
         getRequestWithQueryParameters()
+        uploadAlbum()
     }
 
     private fun getRequestWithQueryParameters(){
@@ -57,6 +58,21 @@ class MainActivity : AppCompatActivity() {
         pathResponse.observe(this, Observer {
             val title = it.body()?.title
             Toast.makeText(this, "title from path: $title", Toast.LENGTH_LONG).show()
+        })
+    }
+
+    private fun uploadAlbum(){
+        // 해당 데이터로 upload 하기
+        val album = AlbumsItem(101, "my title", 3)
+        val postResponse : LiveData<Response<AlbumsItem>> = liveData {
+            val response = retService.uploadAlbum(album)
+            emit(response)
+        }
+        // 데이터를 upload 하면 데이터가 갱신되기 때문에 observe가 발동한다
+        postResponse.observe(this, Observer {
+            val receivedAlbumsItem = it.body()
+            val result = " " + "Album userID: ${receivedAlbumsItem?.userId}\n" +"Album title: ${receivedAlbumsItem?.title}\n\n"
+            binder.textView.text = result
         })
     }
 }
