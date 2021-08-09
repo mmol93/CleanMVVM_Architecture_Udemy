@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class RetrofitInstance {
 
@@ -21,6 +22,12 @@ class RetrofitInstance {
         }
         val client = OkHttpClient.Builder().apply {
             this.addInterceptor(interceptor)
+                    // 30초간 기다려도 응답이 없다면 TimeOut 에러를 낸다(기본 값은 10초임)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                    // 데이터를 받는데 걸리는 최대 시간 설정
+                .readTimeout(20, TimeUnit.SECONDS)
+                    // 데이터를 보내는데 걸리는 최대 시간 설정
+                .writeTimeout(25, TimeUnit.SECONDS)
         }.build()
 
         val BASE_URL = "https://jsonplaceholder.typicode.com/"
