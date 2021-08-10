@@ -2,8 +2,10 @@ package com.example.viewmodel_udemy
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.ClipDescription
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,12 +30,23 @@ class MainActivity : AppCompatActivity() {
     }
     private fun displayNotification(){
         val notificationId = 45
+        // notification 클릭 시 SecondActivity 열기
+        val tapResultIntent = Intent(this, SecondActivity::class.java)
+            .apply {
+                // Intent에 flag 속성을 넣을 수 있다
+                // ex: notification으로 액티비티를 띄울 때 다른 모든 액티비티는 Stack에서 삭제한다 등등...
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+        // PendingIntent 만들기
+        val pendingIntent = PendingIntent.getActivity(this, 0, tapResultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         val notification = NotificationCompat.Builder(this@MainActivity, channelID)
             .setContentTitle("Demo Notification")
             .setContentText("this is notification")
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
             .build()
 
         notificationManager?.notify(notificationId, notification)
