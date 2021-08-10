@@ -3,6 +3,7 @@ package com.example.viewmodel_udemy
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+
 import android.content.ClipDescription
 import android.content.Context
 import android.content.Intent
@@ -10,6 +11,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
+import androidx.core.app.RemoteInput
 import androidx.databinding.DataBindingUtil
 import com.example.viewmodel_udemy.databinding.ActivityMainBinding
 
@@ -17,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private val channelID = "viewmodel_udemy.channel1"
     private var notificationManager : NotificationManager? = null
     private lateinit var binder : ActivityMainBinding
+    // Notification에서 reply로 답을 했을 때 넘겨줄 keyCode
+    private val KEY_REPLY = "key_reply"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +44,16 @@ class MainActivity : AppCompatActivity() {
         // PendingIntent 만들기
         val pendingIntent = PendingIntent.getActivity(this, 0, tapResultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+        // Reply Action
+        // 여기서 RemoteInput은 반드시 androidx를 import 해야한다
+        val remoteInput : RemoteInput = RemoteInput.Builder(KEY_REPLY).run {
+            // setLabel: editText의 hint 같은 개념
+            setLabel("Inset your name here")
+            build()
+        }
+        // SecondActivity를 그대로 사용할 예정이기 때문에 pendingIntent를 그대로 사용한다
+        val replyAction = NotificationCompat.Action.Builder(0, "Reply", pendingIntent).addRemoteInput(remoteInput).build()
+
         // Action Button1
         val intent2 = Intent(this, DetailActivity::class.java)
             .apply {
@@ -52,7 +66,6 @@ class MainActivity : AppCompatActivity() {
         val action2 = NotificationCompat.Action.Builder(0, "Setting", pendingIntent2).build()
 
         // Action Button2
-        // Action Button1
         val intent3 = Intent(this, SettingActivity::class.java)
             .apply {
                 // Intent에 flag 속성을 넣을 수 있다
@@ -70,9 +83,11 @@ class MainActivity : AppCompatActivity() {
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentIntent(pendingIntent)
+//            .setContentIntent(pendingIntent)
             .addAction(action2)
             .addAction(action3)
+                // Reply 넣을 때는 pendingIntent 대신해서 넣어준다
+            .addAction(replyAction)
             .build()
 
         notificationManager?.notify(notificationId, notification)
