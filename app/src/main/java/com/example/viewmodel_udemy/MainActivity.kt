@@ -40,6 +40,30 @@ class MainActivity : AppCompatActivity() {
         // PendingIntent 만들기
         val pendingIntent = PendingIntent.getActivity(this, 0, tapResultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+        // Action Button1
+        val intent2 = Intent(this, DetailActivity::class.java)
+            .apply {
+                // Intent에 flag 속성을 넣을 수 있다
+                // ex: notification으로 액티비티를 띄울 때 다른 모든 액티비티는 Stack에서 삭제한다 등등...
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+        // PendingIntent 만들기
+        val pendingIntent2 = PendingIntent.getActivity(this, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT)
+        val action2 = NotificationCompat.Action.Builder(0, "Setting", pendingIntent2).build()
+
+        // Action Button2
+        // Action Button1
+        val intent3 = Intent(this, SettingActivity::class.java)
+            .apply {
+                // Intent에 flag 속성을 넣을 수 있다
+                // ex: notification으로 액티비티를 띄울 때 다른 모든 액티비티는 Stack에서 삭제한다 등등...
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+
+        // PendingIntent 만들기
+        val pendingIntent3 = PendingIntent.getActivity(this, 0, intent3, PendingIntent.FLAG_UPDATE_CURRENT)
+        val action3 = NotificationCompat.Action.Builder(0, "Details", pendingIntent3).build()
+
         val notification = NotificationCompat.Builder(this@MainActivity, channelID)
             .setContentTitle("Demo Notification")
             .setContentText("this is notification")
@@ -47,6 +71,8 @@ class MainActivity : AppCompatActivity() {
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
+            .addAction(action2)
+            .addAction(action3)
             .build()
 
         notificationManager?.notify(notificationId, notification)
