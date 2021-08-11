@@ -4,13 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
+import androidx.work.*
 import com.example.viewmodel_udemy.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    companion object{
+        const val KEY_COUNT_VALUE = "key"
+    }
     private lateinit var binder : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +24,10 @@ class MainActivity : AppCompatActivity() {
     private fun setOnTimeWorkRequest(){
         // WorkManager 객체 생성
         val workManager = WorkManager.getInstance(applicationContext)
+
+        // input data 설정 - 키, 값 구성으로 데이터를 넣을 수 있다
+        val data = Data.Builder().putInt(KEY_COUNT_VALUE, 125).build()
+
         // WorkManager에서 사용가능한 Constraints
         // setRequiresCharging: 기기가 현재 충전중일 때 WorkRequest를 할 수 있게 한다
         // https://developer.android.com/reference/kotlin/androidx/work/Constraints.Builder
@@ -36,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         val uploadRequest = OneTimeWorkRequest.Builder(UploadWorker::class.java)
             // 설정한 Constraints를 넣는다
             .setConstraints(constraints)
+            .setInputData(data)
             .build()
         // enqueue를 사용하여 workRequest를 workManager에 제출한다
         WorkManager.getInstance(applicationContext)

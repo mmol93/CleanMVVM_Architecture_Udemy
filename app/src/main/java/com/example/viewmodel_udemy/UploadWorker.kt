@@ -12,7 +12,9 @@ class UploadWorker(context : Context, params : WorkerParameters) : Worker(contex
     override fun doWork(): Result {
         // doWork가 실패할 경우 에러가 발생한다
         try{
-            for (i in 0..600){
+            // MainActivity에서 넣은 데이터를 여기서 꺼낸다
+            val count = inputData.getInt(MainActivity.KEY_COUNT_VALUE, 0)
+            for (i in 0 until count){
                 Log.d("test", "uploading: $i")
             }
             // 성공 or 실패를 확인할 수 있다
