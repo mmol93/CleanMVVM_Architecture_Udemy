@@ -2,6 +2,7 @@ package com.example.viewmodel_udemy
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.work.*
@@ -52,6 +53,13 @@ class MainActivity : AppCompatActivity() {
             .observe(this, Observer {
                 // state: Blocked -> Enqueued -> Running -> Succeeded
                 binder.textView.text = it.state.name
+                // Worker에서 보낸 값을 받는다
+                if (it.state.isFinished){
+                    val data = it.outputData
+                    val message = data.getString(UploadWorker.KEY_WORKER)
+
+                    Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+                }
             })
     }
 }
