@@ -43,9 +43,19 @@ class MainActivity : AppCompatActivity() {
             .setConstraints(constraints)
             .setInputData(data)
             .build()
+
+        // 다른 workRequest를 추가하고 싶을 때도 똑같이 workRequest를 정의해주며된다
+        val filteringRequest = OneTimeWorkRequest.Builder(FilteringWorker::class.java)
+            .build()
+        val compressingRequest = OneTimeWorkRequest.Builder(CompressingWorker::class.java)
+            .build()
+
         // enqueue를 사용하여 workRequest를 workManager에 제출한다
         WorkManager.getInstance(applicationContext)
-            .enqueue(uploadRequest)
+                // begin -> then 입력 "순서대로" 일이 진행된다
+            .beginWith(filteringRequest).then(compressingRequest).then(uploadRequest)
+                // begin으로 시작해서 then으로 끝났다면 enqueue에 공백이 들어간다
+            .enqueue()
 
         // WorkManager 인스턴스의 id를 이용하여 LiveData로 observe를 할 수 있다
         workManager.getWorkInfoByIdLiveData(uploadRequest.id)
