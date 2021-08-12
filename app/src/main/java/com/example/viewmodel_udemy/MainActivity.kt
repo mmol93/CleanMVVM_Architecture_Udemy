@@ -50,10 +50,20 @@ class MainActivity : AppCompatActivity() {
         val compressingRequest = OneTimeWorkRequest.Builder(CompressingWorker::class.java)
             .build()
 
+        // 병렬 작업용 workRequest 정의
+        val downloadingRequest = OneTimeWorkRequest.Builder(DownloadWorker::class.java)
+            .build()
+         // 병렬 작업용 workRequest는 mutableListOf를 이용한다
+        val paralleWorks = mutableListOf<OneTimeWorkRequest>()
+        // 어자피 병렬 작업은 동시에 같이 진행되기 때문에 add 하는 순서가 상관이 없다
+        paralleWorks.add(downloadingRequest)
+        paralleWorks.add(filteringRequest)
+
         // enqueue를 사용하여 workRequest를 workManager에 제출한다
         WorkManager.getInstance(applicationContext)
                 // begin -> then 입력 "순서대로" 일이 진행된다
-            .beginWith(filteringRequest).then(compressingRequest).then(uploadRequest)
+                // 병렬(paralle) 작업 또한 workManager에 등록하는 방법은 동일하다
+            .beginWith(paralleWorks).then(compressingRequest).then(uploadRequest)
                 // begin으로 시작해서 then으로 끝났다면 enqueue에 공백이 들어간다
             .enqueue()
 
