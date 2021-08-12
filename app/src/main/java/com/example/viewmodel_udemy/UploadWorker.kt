@@ -25,7 +25,7 @@ class UploadWorker(context : Context, params : WorkerParameters) : Worker(contex
                 Log.d("test", "uploading: $i")
             }
             // Work가 끝난 시점을 같이 inputData로 반환해준다
-            val  time = SimpleDateFormat("dd/M/yyyy hh:mm")
+            val time = SimpleDateFormat("dd/M/yyyy hh:mm")
             val currentData = time.format(Date())
             val outputData = Data.Builder().putString(KEY_WORKER, currentData).build()
 
