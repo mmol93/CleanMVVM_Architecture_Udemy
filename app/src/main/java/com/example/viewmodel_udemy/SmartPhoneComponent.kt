@@ -9,5 +9,11 @@ import dagger.Component
 // module: module을 추가한다
 @Component(modules = [BatteryModule::class])
 interface SmartPhoneComponent {
-    fun getSmartPhone() : SmartPhone
+    // 이 메서드는 MainActivity에서 사용된다
+    // 사실 이는 필요한 모든 Activity에 MainActivity에서 처럼 선언해서 사용해야할 필요가 있다
+    // -> Activity가 많아진다면 모든 Activity에 이 짓을 반복해야한다
+//    fun getSmartPhone() : SmartPhone
+
+    // 위 문제는 해당 Activity에서 @Inject 객체 생성을 통해 해결 가능함
+    fun inject(mainActivity: MainActivity)
 }
