@@ -7,7 +7,7 @@ import dagger.Component
 // 이름은 Dagger + Interface의 이름이 된다 => 여기선: DaggerSmartPhoneComponent
 // 해당 클래스는 Dagger의 주된 열할을 수행하는 부분임
 // module: module을 추가한다
-@Component(modules = [BatteryModule::class])
+@Component(modules = [BatteryModule::class, MemoryCardModule::class])
 interface SmartPhoneComponent {
     // 이 메서드는 MainActivity에서 사용된다
     // 사실 이는 필요한 모든 Activity에 MainActivity에서 처럼 선언해서 사용해야할 필요가 있다

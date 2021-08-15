@@ -18,8 +18,13 @@ class MainActivity : AppCompatActivity() {
 
 //        DaggerSmartPhoneComponent.create().getSmartPhone().makeACallWithRecording()
         // 똑같이 Component를 만들고 연결한다
-        DaggerSmartPhoneComponent.create().inject(this)
-        // 의존성을 가진 객체를 통해 메서드 실행가능
-        smartPhone.makeACallWithRecording()
+        // 1개 이상의 module을 component에 넣을 경우 create() 메서드를 사용할 수 없다
+//        DaggerSmartPhoneComponent.create().inject(this)
+//        // 의존성을 가진 객체를 통해 메서드 실행가능
+//        smartPhone.makeACallWithRecording()
+
+        // 모듈이 2개 이상일 때는 builder를 통해 어떤 모듈을 실행할지 정의해줘야한다
+        DaggerSmartPhoneComponent.builder()
+            .memoryCardModule(MemoryCardModule(1000)).build().inject(this)
     }
 }
