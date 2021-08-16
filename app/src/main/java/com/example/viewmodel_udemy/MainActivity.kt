@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
 //            .memoryCardModule(MemoryCardModule(1000)).build().inject(this)
 
         // Application Class를 이용하여 모든 Class에서 Component 사용 가능
+        // 하지만 이렇게 하면 매번 이 메서드가 호출될 때마다 객체를 생성한다
         (application as SmartPhoneApplication).smartPhoneComponent.inject(this)
+
     }
 }
