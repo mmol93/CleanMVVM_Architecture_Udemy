@@ -24,7 +24,10 @@ class MainActivity : AppCompatActivity() {
 //        smartPhone.makeACallWithRecording()
 
         // 모듈이 2개 이상일 때는 builder를 통해 어떤 모듈을 실행할지 정의해줘야한다
-        DaggerSmartPhoneComponent.builder()
-            .memoryCardModule(MemoryCardModule(1000)).build().inject(this)
+//        DaggerSmartPhoneComponent.builder()
+//            .memoryCardModule(MemoryCardModule(1000)).build().inject(this)
+
+        // Application Class를 이용하여 모든 Class에서 Component 사용 가능
+        (application as SmartPhoneApplication).smartPhoneComponent.inject(this)
     }
 }
