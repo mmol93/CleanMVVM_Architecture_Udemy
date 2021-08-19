@@ -26,3 +26,12 @@
 - one is viewModelScope which is complex way (not that recommended)
 - second is liveData which is simple and recent tech (need liveData ktx library version 2.2.0-alpha01 or higher)
 - liveData with coroutine can check easiliy change of values with coroutine 
+
+
+## Room
+- Room is represented DAO, Database, Repository
+- DAO is the Query about the SQLite like @Inset, @Update, @Delete, @Query
+- Database constructs Room database
+- Repository is the Class that launch each functions in DAO
+- How to use Room database with RecyclerView
+- Basic CRUD about Room database with RecyclerView
