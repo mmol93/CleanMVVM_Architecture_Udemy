@@ -1,6 +1,6 @@
 # ViewModel_Udemy
 - please check branch
-- Each brachList in Readme is arranged by timeline
+- Below this brach name in Readme is arranged by timeline
 
 ## LiveData & ViewModel
 - Usage of ViewModel binding
@@ -35,3 +35,11 @@
 - Repository is the Class that launch each functions in DAO
 - How to use Room database with RecyclerView
 - Basic CRUD about Room database with RecyclerView
+
+
+
+## Retrofit
+- How to make a JSON file with JSON To Kotlin Class Plugin
+- How to get data with JSON Class file and retrofit
+- How to use Retorift annotation about @GET, @Path, @Body
+- Usage Retrofit with Coroutine
