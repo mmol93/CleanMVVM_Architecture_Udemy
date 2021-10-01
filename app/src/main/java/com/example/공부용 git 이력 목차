@@ -1,0 +1,16 @@
+1. Room 데이터 베이스 만들기
+6dbbefe70f6f620a8e6c4703de0160fde224e0a4
+
+2. Room 데이터 베이스에 CRUD 기능 넣기
+108ead772b08da23a15b4307ed3754eeef4556aa
+
+3. RecyclerView에 클릭 리스너를 넣고 선택된 항목을 데이터 베이스에서 가져오게 하기
+4d02c39e2af5801d1fadec28610594d09baef267
+
+4. Room 데이터 베이스와 RecyclerView를 이용한 첫 번째 CRUD 완성
+e2280bed6eb8f8ac18497eee3641e93fb762568d
+
+5. Event를 이용하여 Toast 띄우게 하기
+e62311ee26787591cdfa5bd27e2782391a2cd834
+
+6. 
