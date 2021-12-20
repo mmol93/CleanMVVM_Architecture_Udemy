@@ -2,7 +2,7 @@
 - please check branch
 - Below this brach name in Readme is arranged by timeline
 
-## LiveData & ViewModel
+## ViewModelFactory
 - Usage of ViewModel binding
 - Observe data
 - Connect LiveData with ViewModel
